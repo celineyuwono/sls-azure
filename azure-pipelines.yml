@@ -6,6 +6,8 @@
 trigger:
 - main
 
+pool: 'DEV Hanafuda Pool'
+
 steps:
 - task: NodeTool@0
   inputs:
