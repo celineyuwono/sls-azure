@@ -18,13 +18,5 @@ steps:
     npm install
     npm run build --if-present
     npm test --if-present
-  displayName: 'npm install, build, and test'
-
-- task: ArchiveFiles@2
-  displayName: 'Archive files'
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts: drop'
+    sls deploy
+  displayName: 'npm install, build, test, and deploy'
