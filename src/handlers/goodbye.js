@@ -20,7 +20,7 @@ module.exports.byeBye = async function (context) {
   context.log('JavaScript HTTP trigger function processed a request.');
   context.res = {
     status: 200,
-    body: 'Bye bye!',
+    body: 'Bye bye Two!',
   };
 };
 
