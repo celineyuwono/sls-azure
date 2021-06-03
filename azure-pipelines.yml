@@ -6,30 +6,23 @@
 trigger:
 - main
 
-stages:
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool: 'DEV Hanafuda Pool'
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: 'Install Node.js'
 
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '12.x'
-      displayName: 'Install Node.js'
+- script: |
+    npm install
+    npm run build --if-present
+    npm test --if-present
+  displayName: 'npm install, build, and test'
 
-    - script: |
-        if [ -f extensions.csproj ]
-        then
-            dotnet build extensions.csproj --runtime ubuntu.16.04-x64 --output ./bin
-        fi
-      displayName: 'Build extensions'
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
 
-    - script: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
-        npm run deploy --if-present
-      displayName: 'Prepare binaries'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts: drop'
